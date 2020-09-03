@@ -1,5 +1,5 @@
 {
-    "name": "Unity.KrillcoreVariables",
+    "name": "Krillbite.Krillcore.Variables",
     "references": [
         "Sirenix.OdinInspector.CompatibilityLayer"
     ],

@@ -17,23 +17,9 @@ namespace Torstein.VariableSystem
 		private const string TemplateGroupName = "Template Files";
 
 		[SerializeField]  private string _destinationFilepath = "Assets/Variable System/Types";
-		
-		[SerializeField, FoldoutGroup(TemplateGroupName)] private TextAsset _variableTemplate;
-		[SerializeField, FoldoutGroup(TemplateGroupName)] private TextAsset _instancedVariableTemplate;
-		[SerializeField, FoldoutGroup(TemplateGroupName)] private TextAsset _variableReferenceTemplate;
-		[SerializeField, FoldoutGroup(TemplateGroupName)] private TextAsset _readVariableReferenceTemplate;
-		[SerializeField, FoldoutGroup(TemplateGroupName)] private TextAsset _writeVariableReferenceTemplate;
-		[SerializeField, FoldoutGroup(TemplateGroupName)] private TextAsset _referenceDrawerTemplate;
-		
-		[SerializeField, FoldoutGroup(TemplateGroupName)] private TextAsset _listTemplate;
-		[SerializeField, FoldoutGroup(TemplateGroupName)] private TextAsset _instancedListTemplate;
-		[SerializeField, FoldoutGroup(TemplateGroupName)] private TextAsset _listReferenceTemplate;
-		[SerializeField, FoldoutGroup(TemplateGroupName)] private TextAsset _readListReferenceTemplate;
-		[SerializeField, FoldoutGroup(TemplateGroupName)] private TextAsset _writeListReferenceTemplate;
-		
-		[SerializeField, FoldoutGroup(TemplateGroupName)] private TextAsset _sharedVariableTemplate;
-		
-		[SerializeField, FoldoutGroup(TemplateGroupName)] private TextAsset _sharedVariableListTemplate;
+
+		[SerializeField] 
+		private TypeTemplate[] _typeTemplates;
 		
 		[SerializeField]  private string[] _typeNames = new string[] { "bool", "int", "float", "string", "GameObject", "Vector3", "Texture2D", "Color" };
 
@@ -83,6 +69,17 @@ namespace Torstein.VariableSystem
 			ValidatePath(typeFolderPath);
 			ValidatePath(editorPath);
 
+			foreach (var template in _typeTemplates)
+			{
+				var path = template.pathConvention == TypeTemplate.PathConventionEnum.TypeFolder
+					? typeFolderPath
+					: editorPath;
+
+				var names = GetNames(namespacedTypeName, capitalizedTypeName, template.namingConvention);
+				
+				CreateScriptFile(template.templateFile.text, path, names[0], names[1], template.fileNamePrefix, template.fileNamePostFix, typeNamespace);
+			}
+			/*
 			// Generate Variable, InstancedVariable, Reference, and List types
 			CreateScriptFile(_variableTemplate.text, typeFolderPath, namespacedTypeName, capitalizedTypeName, "", "Variable.cs", typeNamespace);
 			CreateScriptFile(_instancedVariableTemplate.text, typeFolderPath, namespacedTypeName, capitalizedTypeName, "", "VariableInstanced.cs", typeNamespace);
@@ -104,17 +101,32 @@ namespace Torstein.VariableSystem
 			CreateScriptFile(_referenceDrawerTemplate.text, editorPath, namespacedTypeName, capitalizedTypeName, "",  "ReferenceDrawer.cs", typeNamespace);
 			// Generate Drawer for list
 			CreateScriptFile(_referenceDrawerTemplate.text, editorPath, namespacedTypeName, capitalizedTypeName + "List", "",  "ReferenceDrawer.cs", typeNamespace);
-
-			CreateScriptFile(_referenceDrawerTemplate.text, editorPath, namespacedTypeName, capitalizedTypeName + "List", "",  "ReferenceDrawer.cs", typeNamespace);
-			
 			// Generate Behavior Designer type SharedVariable
 			CreateScriptFile(_sharedVariableTemplate.text, typeFolderPath, namespacedTypeName, capitalizedTypeName, "",  "SharedVariable.cs", typeNamespace);
 			CreateScriptFile(_sharedVariableListTemplate.text, typeFolderPath, capitalizedTypeName, capitalizedTypeName, "",  "ListSharedVariable.cs", typeNamespace);
-			
+			*/
 			if(!batch)
 				AssetDatabase.Refresh();
 		}
 
+		public string[] GetNames(string namespacedTypeName, string capitalizedTypeName,
+			TypeTemplate.NamingConventionEnum namingConvention)
+		{
+			switch (namingConvention)
+			{
+				case TypeTemplate.NamingConventionEnum.NamespacedCapitalized:
+					return new []{namespacedTypeName, capitalizedTypeName};
+				
+				case TypeTemplate.NamingConventionEnum.NamespacedCapitalizedList:
+					return new []{namespacedTypeName, capitalizedTypeName + "List"};
+				
+				case TypeTemplate.NamingConventionEnum.CapitalizedListCapitalized:
+					return new []{capitalizedTypeName + "List", capitalizedTypeName};
+				
+				default:
+					throw new ArgumentOutOfRangeException(nameof(namingConvention), namingConvention, null);
+			}
+		}
 		/// <summary>
 		/// Checks if type name contains a period and, if it does, derives (very stupidly) a namespace from the type name.
 		/// </summary>

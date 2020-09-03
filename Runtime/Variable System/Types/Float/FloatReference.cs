@@ -202,10 +202,11 @@ namespace Torstein.VariableSystem
 #if UNITY_EDITOR
    		public void EditorSetVariableData(FloatVariable global, FloatVariableInstanced instanced, float constant,
    			AssignmentType type, IDTokenHolder tokenHolder)
-        {
-	        _assignmentType = type;
-
-            switch (type)
+   		{
+   			_assignmentType = type;
+   			EditorSetTokenHolder(tokenHolder);
+   			
+   			switch (type)
    			{
    				case AssignmentType.Constant:
    					_constantValue = constant;
@@ -215,7 +216,6 @@ namespace Torstein.VariableSystem
    					break;
    				case AssignmentType.PersonalVariable:
    					_instancedVariable = instanced;
-                    EditorSetTokenHolder(tokenHolder);
    					break;
    			}
    		}
