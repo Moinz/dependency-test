@@ -1,0 +1,7 @@
+{
+  "name": "com.krillbite.krillcore.variables",
+  "version": "0.1.0",
+  "displayName": "Krillcore Variables",
+  "description": "A variable system that will blow your mind bud",
+  "unity": "2019.4"
+}

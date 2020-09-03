@@ -1,0 +1,27 @@
+fileFormatVersion: 2
+guid: e731c388ef48a474aac2f4cc807008cf
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - _variableTemplate: {fileID: 4900000, guid: 873f125ecc9bccb47ae015cc1c2852d1, type: 3}
+  - _instancedVariableTemplate: {fileID: 4900000, guid: fa491c55149042346b72ac4cae191117,
+      type: 3}
+  - _variableReferenceTemplate: {fileID: 4900000, guid: e4da1c39c1039b846a9a1374c54734fe,
+      type: 3}
+  - _referenceDrawerTemplate: {fileID: 4900000, guid: e4c91dad57e248948807e181048787a6,
+      type: 3}
+  - _listTemplate: {fileID: 4900000, guid: 32cb5c3b1c26f4b4c8604473f0e35415, type: 3}
+  - _instancedListTemplate: {fileID: 4900000, guid: 17fbbb88dbd10cf4c9055689e3feaa84,
+      type: 3}
+  - _listReferenceTemplate: {fileID: 4900000, guid: 8806bab67c617a147904fd5fb863da02,
+      type: 3}
+  - _sharedVariableTemplate: {fileID: 4900000, guid: 15cdd9588bc816346adf06d1315cfaf3,
+      type: 3}
+  - _sharedVariableListTemplate: {fileID: 4900000, guid: b219f1173b2df984e88c7de045cc958b,
+      type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
